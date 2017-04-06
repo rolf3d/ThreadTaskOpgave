@@ -17,9 +17,22 @@ public class Example
         Console.WriteLine("Hello from thread '{0}'.",
                           Thread.CurrentThread.Name);
 
+        Task taskB = taskA.ContinueWith(DoMoreTask);
+
+        //Task taskB = new Task(() => DoTaskB());
+        //taskB.Start();
+
+        Task taskc = Task.Run(() => DoTaskC());
+       
+
 
         //wait for the task (taskA to finish)
         taskA.Wait();
+        taskB.Wait();
+        taskc.Wait();
+
+
+        //Console.ReadLine();
 
     }
     /// <summary>
@@ -43,6 +56,11 @@ public class Example
     {
         for (int i = 0; i < 50; i++)
         {
+            if (i % 10 == 0)
+            {
+                Thread.Sleep(20);
+                Console.WriteLine("Thread is sleeping");
+            }
 
             udskriv("BBB", i);
         }
@@ -67,4 +85,5 @@ public class Example
         Console.WriteLine($"Task {taskName} i:{i} Thread:" + Thread.CurrentThread.ManagedThreadId);
     }
 
+    
 }
